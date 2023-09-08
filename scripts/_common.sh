@@ -21,9 +21,7 @@ ynh_metronome_ensure_module_is_enabled() {
 }
 
 _metronome_modules_list() {
-	grep -Ev '^\s*--' /etc/metronome/metronome.cfg.lua \
-	 | sed -n '/^modules_enabled = {$/,/^\s*};$/p' \
-	 | grep '\s*"' | sed -r 's/^\s*"([^"]+)";.*/\1/'
+	sed -n '/^modules_enabled = {$/,/^\s*\w/{/^\s*--/!{s#^\s*"\([^"]*\)".*#\1#p}}' /etc/metronome/metronome.cfg.lua	
 }
 
 _metronome_module_add() {
